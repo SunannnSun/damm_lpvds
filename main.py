@@ -32,7 +32,7 @@ output_path   = os.path.join(dir_path, 'output.json')
 #     N = len(data_)
 #     # traj = np.random.choice(np.arange(N), 4, replace=False)
 #     traj = np.array([6, 8, 3, 5]) - 1
-#     input_data = data_[traj]
+#     input_data = 
 
 
 input_path    = os.path.join(dir_path, 'all.mat')
