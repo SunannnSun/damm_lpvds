@@ -14,8 +14,8 @@ def process_bag_file(path):
     # full_traj = np.empty((L, ), dtype=object)
     output_traj = np.empty((L, 1), dtype=object)
 
-    sample_step =1
-    vel_thresh = 3e-3 
+    sample_step =5
+    vel_thresh = 1e-3 
     
     for l in range(L):
         data_l = data_[0, l]['pose'][0,0]

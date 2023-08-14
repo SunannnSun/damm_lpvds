@@ -61,16 +61,15 @@ ax = plt.axes(projection='3d')
 ax.scatter(Data[0, :], Data[1, :], Data[2, :], c='k', s=5)
 
 
-# plt.show()
-# Init dict
-# data_dict = {
-#     "Data": Data,
-#     "Data_sh": Data_sh,
-#     "att": att,
-#     "x0_all": x0_all,
-#     "dt": dt,
-#     "traj_length":traj_length
-# }
+plt.show()
+data_dict = {
+    "Data": Data,
+    "Data_sh": Data_sh,
+    "att": att,
+    "x0_all": x0_all,
+    "dt": dt,
+    "traj_length":traj_length
+}
 
 
 # # Run DAMM
@@ -85,15 +84,10 @@ Sigma = DAMM.Sigma
 
 
 # # Run ds_opt and output JSON
-# ds_opt = DsOpt(data_dict, os.path.join(dir_path, "output.json"))
-# ds_opt.begin()
-# ds_opt.evaluate()
-# ds_opt.make_plot()
-
-
-
-
-
+ds_opt = DsOpt(data_dict, os.path.join(dir_path, "output.json"))
+ds_opt.begin()
+ds_opt.evaluate()
+ds_opt.make_plot()
 
 
 
@@ -106,12 +100,6 @@ damm_output = {
     'pi': Priors,
     'traj': input_data_copy
 }
-
-# File name to save
-# mat_file_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'damm_output.mat')
-# mat_variable_name = 'damm_output'
-
-# Save the dictionary as a MATLAB .mat file
 savemat('damm_output.mat', damm_output)
 
 
