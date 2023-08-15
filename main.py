@@ -5,13 +5,13 @@ from scipy.io import savemat
 from process_bag import process_bag_file
 
 dir_path     = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(dir_path, 'damm'))
+# sys.path.append(os.path.join(dir_path, 'damm'))
 sys.path.append(os.path.join(dir_path, 'ds_opt_ood'))
 
 
-from damm.main import damm
+from damm.damm import damm as damm_class
 from ds_opt_ood.utils_ds import load_tools
-from ds_opt_ood.main import DsOpt
+# from ds_opt_ood.main import DsOpt
 from ds_opt_ood.utils_ds.plotting_tool.plot_reference_trajectories_DS import plot_reference_trajectories_DS
  
 
@@ -73,16 +73,16 @@ data_dict = {
 
 
 # # Run DAMM
-DAMM = damm(Data)         
+DAMM = damm_class(Data)         
 if DAMM.begin() == 0:
     DAMM.result(if_plot=True)
 
-Priors = DAMM.Priors
-Mu = DAMM.Mu
-Sigma = DAMM.Sigma
+# Priors = DAMM.Priors
+# Mu = DAMM.Mu
+# Sigma = DAMM.Sigma
 
 
-
+"""
 # # Run ds_opt and output JSON
 ds_opt = DsOpt(data_dict, os.path.join(dir_path, "output.json"))
 ds_opt.begin()
@@ -94,13 +94,13 @@ ds_opt.make_plot()
 
 
 
-damm_output = {
-    'cov': Sigma,
-    'mu': Mu,
-    'pi': Priors,
-    'traj': input_data_copy
-}
-savemat('damm_output.mat', damm_output)
+# damm_output = {
+#     'cov': Sigma,
+#     'mu': Mu,
+#     'pi': Priors,
+#     'traj': input_data_copy
+# }
+# savemat('damm_output.mat', damm_output)
 
-
+"""
 
