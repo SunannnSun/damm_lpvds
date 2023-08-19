@@ -31,7 +31,7 @@ which python3.8
 Compile damm module
 - Please refer to damm repository: https://github.com/SunannnSun/damm
 
-Choose input method in main.py and run command-line
+Choose input method in ```main.py``` and run command-line
 ```
 python main.py
 ```
