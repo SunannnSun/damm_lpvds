@@ -20,13 +20,13 @@ input_path    = os.path.join(dir_path, 'input.mat')
 output_path   = os.path.join(dir_path, 'output.json')
 
 
-# dim = 2
+dim = 2
 # # Load Data
-# if dim ==2:
-#     data_ = loadmat(r"{}".format(input_path))
-#     data_ = np.array(data_["data"])
-#     N = len(data_[0])
-#     input_data = data_.reshape((N, 1))
+if dim ==2:
+    data_ = loadmat(r"{}".format(input_path))
+    data_ = np.array(data_["data"])
+    N = len(data_[0])
+    input_data = data_.reshape((N, 1))
 # else:
 #     data_ = loadmat(r"{}".format(input_path))
 #     data_ = np.array(data_["data"])
@@ -37,31 +37,25 @@ output_path   = os.path.join(dir_path, 'output.json')
 
 
 input_path    = os.path.join(dir_path, 'all.mat')
-
 input_data = process_bag_file(input_path)
-
 input_data_copy = input_data.copy()
 
-print(input_data[0, 0][:, -1])
-
-
-print(input_data.shape)
 
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
 
 
 # att = np.array(att).reshape(3, 1)
-plot_reference_trajectories_DS(Data, att, 100, 20)
+# plot_reference_trajectories_DS(Data, att, 100, 20)
 
 # print(Data.shape)
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-plt.figure()
-ax = plt.axes(projection='3d')
-ax.scatter(Data[0, :], Data[1, :], Data[2, :], c='k', s=5)
+# plt.figure()
+# ax = plt.axes(projection='3d')
+# ax.scatter(Data[0, :], Data[1, :], Data[2, :], c='k', s=5)
 
 
-plt.show()
+# plt.show()
 data_dict = {
     "Data": Data,
     "Data_sh": Data_sh,
