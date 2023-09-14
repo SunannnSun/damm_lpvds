@@ -17,7 +17,7 @@ from ds_opt_ood.main import DsOpt as dsopt_class
 Option 1 PC-GMM benchmark data: 
     located in dataset/pc-gmm-data; must be renamed input.mat and placed under the root directory
 Option 2 DAMM demo data: 
-    located in dataset/pc-gmm-data; must be renamed input.mat and placed under the root directory
+    located in dataset/damm-demo-data; must be renamed input.mat and placed under the root directory
 Option 3 LASA benchmark dataset:   
     need to specify the dataset by changing the name in data=lasa.DataSet.name 
 '''
