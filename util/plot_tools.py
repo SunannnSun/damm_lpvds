@@ -46,5 +46,3 @@ def plot_reference_trajectories_DS(Data, att, vel_sample, vel_size):
 
 
     plt.show()
-
-# get more function on 3D

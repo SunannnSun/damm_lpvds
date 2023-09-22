@@ -7,8 +7,8 @@ from scipy.io import loadmat
 def load_data(input_opt):
 
     if input_opt == 1:
-        print("You selected PC-GMM benchmark data.")
-        pcgmm_list = ["2D_concentric", "2D_Lshape", "3D_sink", "2D_incremental_1"]
+        print("\nYou selected PC-GMM benchmark data.\n")
+        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1"]
         
         message = """Available Models: \n"""
         for i in range(len(pcgmm_list)):
@@ -18,6 +18,12 @@ def load_data(input_opt):
         message += '\nEnter the corresponding option number [type 0 to exit]: '
         
         data_opt = int(input(message))
+
+        if data_opt == 0:
+            sys.exit()
+        elif data_opt<0 or data_opt > len(pcgmm_list):
+            print("Invalid data option")
+            sys.exit()
     
         data_name = str(pcgmm_list[data_opt-1]) + ".mat"
         input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "pc-gmm-data", data_name)
@@ -37,7 +43,7 @@ def load_data(input_opt):
 
 
     elif input_opt == 2:
-        print("You selected LASA benchmark dataset.")
+        print("\nYou selected LASA benchmark dataset.\n")
 
         # suppress print message from lasa package
         original_stdout = sys.stdout
@@ -60,7 +66,7 @@ def load_data(input_opt):
 
         if data_opt == 0:
             sys.exit()
-        elif data_opt<0 or data_opt > 30:
+        elif data_opt<0 or data_opt > len(lasa_list):
             print("Invalid data option")
             sys.exit()
 
@@ -77,6 +83,8 @@ def load_data(input_opt):
 
 
     elif input_opt == 3:
+        print("\nYou selected DAMM demo dataset.\n")
+
         from . import process_bag
         damm_list = ["bridge", "Nshape"]
         
@@ -95,71 +103,6 @@ def load_data(input_opt):
 
     return input_data
 
-
-
-
-def load_dataset_DS(pkg_dir, dataset, sub_sample, nb_trajectories):
-    dataset_name = []
-    if dataset == 0:
-        dataset_name = r'2D_concentric.mat'
-    elif dataset == 1:
-        dataset_name = r'2D_opposing.mat'
-    elif dataset == 2:
-        dataset_name = r'2D_Lshape.mat'
-    elif dataset == 3:
-        dataset_name = r'2D_Ashape.mat'
-    elif dataset == 4:
-        dataset_name = r'2D_Sshape.mat'
-    elif dataset == 5:
-        dataset_name = r'2D_multi-behavior.mat'
-    elif dataset == 6:
-        dataset_name = r'3D_viapoint_3.mat'
-    elif dataset == 7:
-        dataset_name = r'3D_sink.mat'
-    elif dataset == 8:
-        dataset_name = r'3D_Cshape_bottom.mat'
-    elif dataset == 9:
-        dataset_name = r'3D_Cshape_top.mat'
-    elif dataset == 10:
-        dataset_name = r'3D-pick-box.mat'
-        nb_trajectories = 4
-
-
-
-    if not sub_sample:
-        sub_sample = 2
-
-    final_dir = os.path.join(pkg_dir,  'data', dataset_name)
-
-
-    if dataset == 1:
-        print("can not run in original matlab code, so this function we don't currently implement it")
-        return None
-
-    elif dataset <= 5:
-        # 2022/09/10 检查出数据load错误
-        data_ = loadmat(r"{}".format(final_dir))
-        data_ = np.array(data_["data"])
-        N = len(data_[0])
-        data = data_.reshape((N, 1))
-        Data, Data_sh, att, x0_all, dt, data, traj_length = processDataStructure(data)
-
-    else:
-        data_ = loadmat(r"{}".format(final_dir))
-        data_ = np.array(data_["data"])
-        N = len(data_)
-        traj = np.random.choice(np.arange(N), nb_trajectories, replace=False)
-        # traj = np.array([6, 8, 3, 5]) - 1
-        data = data_[traj]
-        for l in np.arange(nb_trajectories):
-            # Gather Data
-            if dataset == 11:
-                print('this should be fixed later')
-            else:
-                data[l][0] = data[l][0][:, ::sub_sample]
-        Data, Data_sh, att, x0_all, dt, data, traj_length = processDataStructure(data)
-
-    return Data, Data_sh, att, x0_all, dt, data, traj_length
 
 
 
