@@ -1,17 +1,16 @@
-import sys, os
+import os
 import numpy as np
-from scipy.io import loadmat, savemat
 import pyLasaDataset as lasa
+from scipy.io    import loadmat, savemat
 
-
-from damm.damm import damm as damm_class
+from damm.main   import damm   as damm_class
+from ds_opt.main import ds_opt as dsopt_class
 from util import load_tools, process_bag, plot_reference_trajectories_DS
 
- 
-dir_path     = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(dir_path, 'ds_opt_ood'))
-from ds_opt_ood.main import DsOpt as dsopt_class
 
+dir_path     = os.path.dirname(os.path.realpath(__file__))
+input_path   = os.path.join(dir_path, 'input.mat')
+output_path  = os.path.join(dir_path, 'output.json')
 
 '''
 Option 1 PC-GMM benchmark data: 
@@ -24,11 +23,7 @@ Option 3 LASA benchmark dataset:
 
 input_method = 3
 
-
 if input_method == 1:
-    input_path    = os.path.join(dir_path, 'input.mat')
-    output_path   = os.path.join(dir_path, 'output.json')
-
     data_ = loadmat(r"{}".format(input_path))
     data_ = np.array(data_["data"])
     dim = data_[0][0].shape[0]/2
@@ -43,7 +38,6 @@ if input_method == 1:
         # input_data = data_[:]
 
 elif input_method == 2:
-    input_path    = os.path.join(dir_path, 'input.mat')
     input_data    = process_bag.process_bag_file(input_path)
 
 
@@ -52,7 +46,7 @@ elif input_method ==3:
     #[Leaf_2, Line, LShape, NShape, PShape, RShape, Saeghe, Sharpc, Sine, Snake]
     #[Spoon, Sshape, Trapezoid, Worm, WShape, Zshape, Multi_Models_1 Multi_Models_2, Multi_Models_3, Multi_Models_4]
 
-    data = lasa.DataSet.Snake
+    data = lasa.DataSet.Saeghe
     demos = data.demos 
     sub_sample = 3
     L = len(demos)
@@ -61,7 +55,6 @@ elif input_method ==3:
         pos = demos[l].pos[:, ::sub_sample]
         vel = demos[l].vel[:, ::sub_sample]
         input_data[l, 0] = np.vstack((pos, vel))
-
 
 
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
@@ -85,7 +78,7 @@ if damm.begin() == 0:
 
 
 
-ds_opt = dsopt_class(data_dict, os.path.join(dir_path, "output.json"))
+ds_opt = dsopt_class(data_dict, output_path)
 ds_opt.begin()
 ds_opt.evaluate()
 ds_opt.make_plot()
