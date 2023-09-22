@@ -1,15 +1,109 @@
-import os
+import os, sys
 import numpy as np
 from scipy.io import loadmat
+
+
+
+def load_data(input_opt):
+
+    if input_opt == 1:
+        print("You selected PC-GMM benchmark data.")
+        pcgmm_list = ["2D_concentric", "2D_Lshape", "3D_sink", "2D_incremental_1"]
+        
+        message = """Available Models: \n"""
+        for i in range(len(pcgmm_list)):
+            message += "{:2}) {: <18} ".format(i+1, pcgmm_list[i])
+            if (i+1) % 6 ==0:
+                message += "\n"
+        message += '\nEnter the corresponding option number [type 0 to exit]: '
+        
+        data_opt = int(input(message))
+    
+        data_name = str(pcgmm_list[data_opt-1]) + ".mat"
+        input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "pc-gmm-data", data_name)
+
+        data_ = loadmat(r"{}".format(input_path))
+        data_ = np.array(data_["data"])
+        dim = data_[0][0].shape[0]/2
+        if dim == 2:
+            N = len(data_[0])
+            input_data = data_.reshape((N, 1))
+        elif dim == 3:
+            N = len(data_)
+            # traj = np.random.choice(np.arange(N), 4, replace=False)
+            traj = np.array([6, 8, 3, 5]) - 1
+            input_data = data_[traj]  
+            # input_data = data_[:]
+
+
+    elif input_opt == 2:
+        print("You selected LASA benchmark dataset.")
+
+        # suppress print message from lasa package
+        original_stdout = sys.stdout
+        sys.stdout = open('/dev/null', 'w')
+        import pyLasaDataset as lasa
+        sys.stdout = original_stdout
+
+        lasa_list = ["Angle", "BendedLine", "CShape", "DoubleBendedLine", "GShape", "heee", "JShape", "JShape_2", "Khamesh", "Leaf_1",
+        "Leaf_2", "Line", "LShape", "NShape", "PShape", "RShape", "Saeghe", "Sharpc", "Sine", "Snake",
+        "Spoon", "Sshape", "Trapezoid", "Worm", "WShape", "Zshape", "Multi_Models_1", "Multi_Models_2", "Multi_Models_3", "Multi_Models_4"]
+
+        message = """Available Models: \n"""
+        for i in range(len(lasa_list)):
+            message += "{:2}) {: <18} ".format(i+1, lasa_list[i])
+            if (i+1) % 6 ==0:
+                message += "\n"
+        message += '\nEnter the corresponding option number [type 0 to exit]: '
+        
+        data_opt = int(input(message))
+
+        if data_opt == 0:
+            sys.exit()
+        elif data_opt<0 or data_opt > 30:
+            print("Invalid data option")
+            sys.exit()
+
+        data = getattr(lasa.DataSet, lasa_list[data_opt-1])
+        demos = data.demos 
+
+        sub_sample = 3
+        L = len(demos)
+        input_data = np.empty((L, 1), dtype=object)
+        for l in range(L):
+            pos = demos[l].pos[:, ::sub_sample]
+            vel = demos[l].vel[:, ::sub_sample]
+            input_data[l, 0] = np.vstack((pos, vel))
+
+
+    elif input_opt == 3:
+        from . import process_bag
+        damm_list = ["bridge", "Nshape"]
+        
+        message = """Available Models: \n"""
+        for i in range(len(damm_list)):
+            message += "{:2}) {: <18} ".format(i+1, damm_list[i])
+            if (i+1) % 6 ==0:
+                message += "\n"
+        message += '\nEnter the corresponding option number [type 0 to exit]: '
+        
+        data_opt = int(input(message))
+    
+        folder_name = str(damm_list[data_opt-1])
+        input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "damm-demo-data", folder_name, "all.mat")
+        input_data    = process_bag.process_bag_file(input_path)
+
+    return input_data
+
 
 
 
 def load_dataset_DS(pkg_dir, dataset, sub_sample, nb_trajectories):
     dataset_name = []
     if dataset == 0:
-        dataset_name = r'2D_messy-snake.mat'
+        dataset_name = r'2D_concentric.mat'
     elif dataset == 1:
-        dataset_name = r'2D_messy-snake.mat'
+        dataset_name = r'2D_opposing.mat'
     elif dataset == 2:
         dataset_name = r'2D_Lshape.mat'
     elif dataset == 3:
@@ -29,12 +123,8 @@ def load_dataset_DS(pkg_dir, dataset, sub_sample, nb_trajectories):
     elif dataset == 10:
         dataset_name = r'3D-pick-box.mat'
         nb_trajectories = 4
-    elif dataset == 11:
-        dataset_name = r'iCubHuman_demos.mat'
-        nb_trajectories = 3
-    elif dataset == 12:
-        dataset_name = r'pnp_raw.mat'
-        nb_trajectories = 3
+
+
 
     if not sub_sample:
         sub_sample = 2

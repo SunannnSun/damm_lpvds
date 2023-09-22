@@ -5,6 +5,9 @@ from scipy.io import loadmat
 
 
 def process_bag_file(path):
+    """
+    Process .mat files converted from .bag files
+    """
 
     data_ = loadmat(r"{}".format(path))
 
