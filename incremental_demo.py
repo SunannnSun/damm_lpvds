@@ -1,22 +1,36 @@
 import os, subprocess
 import numpy as np
+from scipy.io import loadmat
+
 
 
 from damm.main   import damm   as damm_class
 from ds_opt.main import ds_opt as dsopt_class
 from util import load_tools, plot_tools, process_bag
 
+def load_data(data_name):
+    input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset", "pc-gmm-data", data_name)
 
-# run matlab code to convert ros_bag to .mat
-
-# command_line_args = []
-
+    data_ = loadmat(r"{}".format(input_path))
+    data_ = np.array(data_["data"])
+    dim = data_[0][0].shape[0]/2
+    if dim == 2:
+        N = len(data_[0])
+        input_data = data_.reshape((N, 1))
+    elif dim == 3:
+        N = len(data_)
+        # traj = np.random.choice(np.arange(N), 4, replace=False)
+        traj = np.array([6, 8, 3, 5]) - 1
+        input_data = data_[traj]  
+    return input_data
+    
 
 
 # load .mat file using process_bag function
-dir_path      = os.path.dirname(os.path.realpath(__file__))
-input_path    = os.path.join(dir_path, 'input.mat')
-input_data    = process_bag.process_bag_file(input_path)
+
+data_name = "3D_Cshape_bottom.mat"
+input_data = load_data(data_name)
+
 
 
 # process and plot input data
@@ -57,3 +71,8 @@ ds_opt = dsopt_class(data_dict, output_path)
 ds_opt.begin()
 ds_opt.evaluate()
 ds_opt.plot()
+
+
+
+second_path    = os.path.join(dir_path, '3D_Cshape_top.mat')
+second_data    = process_bag.process_bag_file(second_path)
