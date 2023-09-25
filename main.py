@@ -3,22 +3,17 @@ import numpy as np
 
 from damm.main   import damm   as damm_class
 from ds_opt.main import ds_opt as dsopt_class
-from util import load_tools, plot_tools
+from util import load_tools, plot_tools, process_bag
 
 
-# choose input option
-input_message = '''
-Please choose a data input option:
-1. PC-GMM benchmark data
-2. LASA benchmark data
-3. DAMM demo data
-Enter the corresponding option number: '''
 
-input_opt = input(input_message)
+# load .mat file using process_bag function
+dir_path     = os.path.dirname(os.path.realpath(__file__))
+input_path    = os.path.join(dir_path, 'input.mat')
+input_data    = process_bag.process_bag_file(input_path)
 
 
 # process and plot input data
-input_data = load_tools.load_data(int(input_opt))
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
 plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
 
