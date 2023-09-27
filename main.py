@@ -8,14 +8,18 @@ from util import load_tools, plot_tools, process_bag
 
 
 # run matlab code to convert ros_bag to .mat
-
-# command_line_args = []
+import matlab.engine
+eng = matlab.engine.start_matlab()
+eng.cd(r'rosbag_to_mat')
+eng.process_rosbags(nargout=0)
 
 
 
 # load .mat file using process_bag function
 dir_path      = os.path.dirname(os.path.realpath(__file__))
-input_path    = os.path.join(dir_path, 'input.mat')
+# input_path    = os.path.join(dir_path, 'input.mat')
+input_path    = os.path.join(dir_path,'log', 'mat', 'all.mat')
+
 input_data    = process_bag.process_bag_file(input_path)
 
 
@@ -35,8 +39,8 @@ param_dict ={
     "sigma_dir_0":    0.1,
 }
 
-damm = damm_class(Data, param_dict)         
-damm.begin()
+damm = damm_class(param_dict)         
+damm.begin(Data)
 damm.evaluate()
 damm.plot()
 
