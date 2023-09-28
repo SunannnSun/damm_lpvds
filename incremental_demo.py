@@ -21,21 +21,22 @@ def load_data(data_name):
         N = len(data_)
         # traj = np.random.choice(np.arange(N), 4, replace=False)
         traj = np.array([6, 8, 3, 5]) - 1
-        input_data = data_[traj]  
+        input_data = data_[traj]
     return input_data
     
 
 
 # load .mat file using process_bag function
-data_name = "3D_Cshape_bottom.mat"
+data_name = "3D_Cshape_top.mat"
 input_data = load_data(data_name)
-
 
 
 
 # process and plot input data
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
 plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+
+
 
 
 dim, num = Data.shape
@@ -74,7 +75,7 @@ ds_opt.plot()
 
 
 
-data_name = "3D_Cshape_top.mat"
+data_name = "3D_Cshape_bottom.mat"
 input_data = load_data(data_name)
 Data_next, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
 
