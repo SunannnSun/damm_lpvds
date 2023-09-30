@@ -15,6 +15,11 @@ if __name__ == "__main__":
     input_path    = os.path.join(dir_path,'log', 'mat', 'all.mat')
     output_path   = os.path.join(dir_path, 'output.json')
 
+    mat_path      = os.path.join(dir_path,'log', 'mat')
+    rosbag_path   = os.path.join(dir_path,'log', 'ros_bag')
+    archive_path  = os.path.join(dir_path,'log', 'archive')
+    model_path    = os.path.join(dir_path, '..', '..', 'franka_ws', 'src', 'lfd_ds', 'model', 'damm1')
+
     
     # initialize a damm class with hyperparameters
     dim = 6
@@ -48,6 +53,7 @@ if __name__ == "__main__":
         # read .mat file 
         input_data    = process_bag.process_bag_file(input_path)
 
+
         # process the raw data and run damm
         Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
         plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
@@ -55,7 +61,13 @@ if __name__ == "__main__":
             damm.begin(Data)
         else:
             damm.begin_next(Data)
-        
+        damm.evaluate()
+        damm.plot()
+
+        if i!=0:
+            Data = np.hstack((prev_Data, Data))
+
+
         # run ds-opt
         data_dict = {
             "Data": Data,
@@ -72,7 +84,27 @@ if __name__ == "__main__":
         ds_opt.evaluate()
         ds_opt.plot()
 
-        
+
+
+        allfiles = os.listdir(mat_path)
+        for f in allfiles:
+            src_path = os.path.join(mat_path, f)
+            dst_path = os.path.join(archive_path, f)
+            os.rename(src_path, dst_path)
+
+
+        allfiles = os.listdir(rosbag_path)
+        for f in allfiles:
+            src_path = os.path.join(rosbag_path, f)
+            dst_path = os.path.join(archive_path, f)
+            os.rename(src_path, dst_path)
+
+        i+=1
+
+        prev_Data = Data
+
+        os.rename(os.path.join(dir_path, "output.json"), os.path.join(model_path, '0.json'))
+
     eng.quit()
 
 
