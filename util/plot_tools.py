@@ -46,3 +46,43 @@ def plot_reference_trajectories_DS(Data, att, vel_sample, vel_size):
 
 
     plt.show()
+
+
+
+def plot_incremental(new_data, prev_data):
+    fig = plt.figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(projection='3d')
+    ax.plot(prev_data[0], prev_data[1], prev_data[2], 'o', color='r', markersize=1.5,  label='original data')
+    # ax.scatter(att[0], att[1], att[2], s=200, c='blue', alpha=0.5)
+    ax.plot(new_data[0], new_data[1], new_data[2], 'o', color = 'magenta', markersize=1.5,  label='new data')
+
+    
+    ax.axis('auto')
+    ax.set_title('Reference Trajectory')
+    ax.set_xlabel(r'$\xi_1(m)$')
+    ax.set_ylabel(r'$\xi_2(m)$')
+    ax.set_zlabel(r'$\xi_3(m)$')
+    
+    # import matplotlib.patches as mpatches
+    # red_patch = mpatches.Patch(color='red', label='The red data')
+    # ax.legend(handles=[red_patch])
+    import matplotlib.lines as mlines
+    new_label = mlines.Line2D([], [], color='red',
+                          linewidth=3, label='original data')
+    old_label = mlines.Line2D([], [], color='magenta',
+                        linewidth=3, label='new data')
+    ax.legend(handles=[new_label, old_label])
+    
+    plt.show()
+
+    # vel_points = Data[:, ::vel_sample]
+    # U = np.zeros(len(vel_points[0]))
+    # V = np.zeros(len(vel_points[0]))
+    # W = np.zeros(len(vel_points[0]))
+    # for i in np.arange(0, len(vel_points[0])):
+    #     dir_ = vel_points[3:, i] / np.linalg.norm(vel_points[3:, i])
+    #     U[i] = dir_[0]
+    #     V[i] = dir_[1]
+    #     W[i] = dir_[2]
+    # q = ax.quiver(vel_points[0], vel_points[1], vel_points[2], U, V, W, length=0.04, normalize=True,colors='k')

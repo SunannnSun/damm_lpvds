@@ -79,6 +79,8 @@ data_name = "3D_Cshape_bottom.mat"
 input_data = load_data(data_name)
 Data_next, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
 
+plot_tools.plot_incremental(Data_next, Data)
+
 damm.begin_next(Data_next)
 
 

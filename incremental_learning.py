@@ -56,7 +56,11 @@ if __name__ == "__main__":
 
         # process the raw data and run damm
         Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
-        plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+        if i==0:
+            plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+        else:
+            plot_tools.plot_incremental(Data, prev_Data)
+        
         if i==0:
             damm.begin(Data)
         else:
