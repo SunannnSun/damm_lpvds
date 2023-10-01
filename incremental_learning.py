@@ -65,7 +65,7 @@ if __name__ == "__main__":
             damm.begin(Data)
         else:
             damm.begin_next(Data)
-        damm.evaluate()
+        damm.evaluate(x0_all)
         damm.plot()
 
         if i!=0:

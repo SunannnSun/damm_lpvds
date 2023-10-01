@@ -5,7 +5,7 @@ from scipy.io import loadmat
 
 from damm.main   import damm   as damm_class
 from ds_opt.main import ds_opt as dsopt_class
-from util import load_tools, plot_tools, process_bag
+from util import load_tools, plot_tools, process_bag, data_tools
 
 
 def load_data(data_name):
@@ -34,7 +34,7 @@ input_data = load_data(data_name)
 
 # process and plot input data
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
-plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+# plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
 
 
 
@@ -51,8 +51,12 @@ param_dict ={
 
 damm = damm_class(param_dict)         
 damm.begin(Data)
-damm.evaluate()
+damm.evaluate(x0_all)
 damm.plot()
+
+
+
+
 
 
 
@@ -101,6 +105,8 @@ ds_opt = dsopt_class(data_dict, output_path)
 ds_opt.begin()
 ds_opt.evaluate()
 ds_opt.plot()
+'''
+'''
 
  
  
