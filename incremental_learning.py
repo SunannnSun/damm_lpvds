@@ -7,6 +7,10 @@ from ds_opt.main import ds_opt as dsopt_class
 from util import load_tools, plot_tools, process_bag
 import matlab.engine
 
+import time
+from time import perf_counter
+
+
 
 if __name__ == "__main__":
     
@@ -27,11 +31,10 @@ if __name__ == "__main__":
     "mu_0":           np.zeros((dim, )), 
     "sigma_0":        0.5 * np.eye(dim),
     "nu_0":           dim,
-    "kappa_0":        1,
-    "sigma_dir_0":    0.1,
+    "kappa_0":        0.1,
+    "sigma_dir_0":    0.05,
     }
     damm = damm_class(param_dict)    
-
 
     # run matlab engine
     eng = matlab.engine.start_matlab()
@@ -55,7 +58,16 @@ if __name__ == "__main__":
 
 
         # process the raw data and run damm
-        Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
+        if i == 0:
+            Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
+        else:
+            Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data, att)
+        # att[1]  = att[1]  + 0.05 
+        # if i==1:
+        #     att[-1] = att[-1] + 0.03
+        # if i==0:
+        #     att[-1] =att[-1] - 0.1
+
         if i==0:
             plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
         else:
@@ -82,11 +94,18 @@ if __name__ == "__main__":
             "traj_length":traj_length
         }
 
+        t0 = time.time()
+        T0 = perf_counter() 
 
         ds_opt = dsopt_class(data_dict, output_path) 
         ds_opt.begin()
-        ds_opt.evaluate()
-        ds_opt.plot()
+        t1 = time.time()
+        T1 = perf_counter() 
+        
+        # ds_opt.evaluate()
+        # print("Time to Finish Optimization: ", t1-t0)
+        # print("Time to Finish Optimization: ", T1-T0)
+        # ds_opt.plot()
 
 
 

@@ -3,7 +3,7 @@ import numpy as np
 
 
 def plot_reference_trajectories_DS(Data, att, vel_sample, vel_size):
-    fig = plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(16, 10))
     M = len(Data) / 2  # store 1 Dim of Data
     if M == 2:
         ax = fig.add_subplot(111)
@@ -50,7 +50,7 @@ def plot_reference_trajectories_DS(Data, att, vel_sample, vel_size):
 
 
 def plot_incremental(new_data, prev_data):
-    fig = plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(16, 10))
 
     ax = fig.add_subplot(projection='3d')
     ax.plot(prev_data[0], prev_data[1], prev_data[2], 'o', color='r', markersize=1.5,  label='original data')

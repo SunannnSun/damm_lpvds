@@ -108,9 +108,10 @@ def load_data(input_opt):
 
 
 
-def processDataStructure(data):
+def processDataStructure(data, *args_):
     N = int(len(data))
     M = int(len(data[0][0]) / 2)
+
     att_ = data[0][0][0:M, -1].reshape(M, 1)
     for n in np.arange(1, N):
         att = data[n][0][0:M, -1].reshape(M, 1)
@@ -118,6 +119,7 @@ def processDataStructure(data):
 
     att = np.mean(att_, axis=1, keepdims=True)
     shifts = att_ - np.repeat(att, N, axis=1)
+
     Data = np.array([])
     x0_all = np.array([])
     Data_sh = np.array([])
