@@ -34,8 +34,8 @@ param_dict ={
     "sigma_dir_0":    0.1,
 }
 
-damm = damm_class(Data, param_dict)         
-damm.begin()
+damm = damm_class(param_dict)         
+damm.begin(Data)
 damm.evaluate()
 damm.plot()
 

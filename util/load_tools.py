@@ -8,7 +8,7 @@ def load_data(input_opt):
 
     if input_opt == 1:
         print("\nYou selected PC-GMM benchmark data.\n")
-        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1"]
+        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1", "2D_multi-behavior"]
         
         message = """Available Models: \n"""
         for i in range(len(pcgmm_list)):

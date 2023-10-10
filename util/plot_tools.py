@@ -14,7 +14,9 @@ def plot_reference_trajectories_DS(Data, att, vel_sample, vel_size):
         # Plot the position trajectories
         plt.plot(Data[0], Data[1], 'ro', markersize=1)
         # plot attractor
-        plt.scatter(att[0], att[1], s=100, c='blue', alpha=0.5)
+        # plt.scatter(att[0], att[1], s=100, c='blue', alpha=0.5)
+        plt.scatter(att[0], att[1], marker=(8, 2, 0), s=100, c='k')
+
         # Plot Velocities of Reference Trajectories
         vel_points = Data[:, ::vel_sample]
         U = np.zeros(len(vel_points[0]))
