@@ -69,11 +69,14 @@ def plot_incremental(new_data, prev_data):
     # ax.legend(handles=[red_patch])
     import matplotlib.lines as mlines
     new_label = mlines.Line2D([], [], color='red',
-                          linewidth=3, label='original data')
+                          linewidth=3, label='Old Demo')
     old_label = mlines.Line2D([], [], color='magenta',
-                        linewidth=3, label='new data')
+                        linewidth=3, label='New Demo')
     ax.legend(handles=[new_label, old_label])
-    
+
+    ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     plt.show()
 
     # vel_points = Data[:, ::vel_sample]

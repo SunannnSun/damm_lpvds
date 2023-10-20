@@ -106,8 +106,6 @@ def load_data(input_opt):
 
 
 
-
-
 def processDataStructure(data, *args_):
     N = int(len(data))
     M = int(len(data[0][0]) / 2)
@@ -118,6 +116,9 @@ def processDataStructure(data, *args_):
         att_ = np.concatenate((att_, att), axis=1)
 
     att = np.mean(att_, axis=1, keepdims=True)
+
+    if len(args_)==1:
+        att = args_[0]
     shifts = att_ - np.repeat(att, N, axis=1)
 
     Data = np.array([])
@@ -143,6 +144,7 @@ def processDataStructure(data, *args_):
         # Shift data to origin for Sina's approach + SEDS
         data_[0:M, :] = data_[0:M, :] - np.repeat(att, len(data_[0]), axis = 1)
         data_[M:, -1] = 0
+        
         if l == 0:
             Data_sh = data_
         else:
