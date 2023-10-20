@@ -102,10 +102,10 @@ if __name__ == "__main__":
         t1 = time.time()
         T1 = perf_counter() 
         
-        # ds_opt.evaluate()
+        ds_opt.evaluate()
         # print("Time to Finish Optimization: ", t1-t0)
         # print("Time to Finish Optimization: ", T1-T0)
-        # ds_opt.plot()
+        ds_opt.plot()
 
 
 
