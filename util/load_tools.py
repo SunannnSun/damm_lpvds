@@ -8,7 +8,7 @@ def load_data(input_opt):
 
     if input_opt == 1:
         print("\nYou selected PC-GMM benchmark data.\n")
-        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1", "2D_multi-behavior"]
+        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1", "2D_multi-behavior", "2D_messy-snake"]
         
         message = """Available Models: \n"""
         for i in range(len(pcgmm_list)):
@@ -73,7 +73,7 @@ def load_data(input_opt):
         data = getattr(lasa.DataSet, lasa_list[data_opt-1])
         demos = data.demos 
 
-        sub_sample = 3
+        sub_sample = 1
         L = len(demos)
         input_data = np.empty((L, 1), dtype=object)
         for l in range(L):
