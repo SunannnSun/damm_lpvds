@@ -26,22 +26,23 @@ plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
 # damm clustering
 dim = Data.shape[0]
 
-param_dict ={
+damm_config ={
     "mu_0":           np.zeros((dim, )), 
     "sigma_0":        1 * np.eye(dim),
     "nu_0":           dim,
     "kappa_0":        0.1,
     "sigma_dir_0":    0.1,
+    "min_threshold":  50
 }
 
-damm = damm_class(param_dict)         
+damm = damm_class(damm_config)         
 damm.begin(Data)
 damm.evaluate()
 damm.plot()
 
 
 # ds optimization 
-data_dict = {
+ds_opt_config = {
     "Data": Data,
     "Data_sh": Data_sh,
     "att": np.array(att),
@@ -52,7 +53,7 @@ data_dict = {
 
 output_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'output.json')
 
-ds_opt = dsopt_class(data_dict, output_path)
+ds_opt = dsopt_class(ds_opt_config, output_path)
 ds_opt.begin()
 ds_opt.evaluate()
 ds_opt.plot()
