@@ -8,7 +8,7 @@ def load_data(input_opt):
 
     if input_opt == 1:
         print("\nYou selected PC-GMM benchmark data.\n")
-        pcgmm_list = ["2D_Lshape", "3D_sink", "2D_incremental_1", "2D_multi-behavior", "2D_messy-snake"]
+        pcgmm_list = ["3D_sink", "3D_viapoint_1", "3D-cube-pick", "3D_viapoint_2", "2D_Lshape",  "2D_incremental_1", "2D_multi-behavior", "2D_messy-snake"]
         
         message = """Available Models: \n"""
         for i in range(len(pcgmm_list)):
@@ -36,8 +36,8 @@ def load_data(input_opt):
             input_data = data_.reshape((N, 1))
         elif dim == 3:
             N = len(data_)
-            # traj = np.random.choice(np.arange(N), 4, replace=False)
-            traj = np.array([6, 8, 3, 5]) - 1
+            traj = np.random.choice(np.arange(N), 6, replace=False)
+            # traj = np.array([6, 8, 3, 5]) - 1
             input_data = data_[traj]  
             # input_data = data_[:]
 
