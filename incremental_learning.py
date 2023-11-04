@@ -29,9 +29,9 @@ if __name__ == "__main__":
     dim = 6
     param_dict ={
     "mu_0":           np.zeros((dim, )), 
-    "sigma_0":        0.5 * np.eye(dim),
+    "sigma_0":        0.1 * np.eye(dim),
     "nu_0":           dim,
-    "kappa_0":        0.1,
+    "kappa_0":        0,
     "sigma_dir_0":    0.05,
     }
     damm = damm_class(param_dict)    
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         if i!=0:
             Data = np.hstack((prev_Data, Data))
            
-
+        # att[-1] =att[-1]
 
         # run ds-opt
         data_dict = {
@@ -101,19 +101,11 @@ if __name__ == "__main__":
         T1 = perf_counter() 
         
         ds_opt.evaluate()
-<<<<<<< HEAD
-        # print("Time to Finish Optimization: ", t1-t0)
-        # print("Time to Finish Optimization: ", T1-T0)
-        ds_opt.plot()
-
-
-=======
         if i==0:
             ds_opt.plot()
         else:
-            # ds_opt.plot(new_Data, prev_Data, prev_x0)
+            ds_opt.plot(new_Data, prev_Data, prev_x0)
             ds_opt.plot(prev_Data, new_Data, prev_x0)
->>>>>>> da505615ede717c75686e1b1dbd09bba888b40bf
 
         # allfiles = os.listdir(mat_path)
         # for f in allfiles:
@@ -123,17 +115,13 @@ if __name__ == "__main__":
 
 
         # allfiles = os.listdir(rosbag_path)
-        # for f in allfiles:
-        #     src_path = os.path.join(rosbag_path, f)
-        #     dst_path = os.path.join(archive_path, f)
-        #     os.rename(src_path, dst_path)
 
         i+=1
 
         prev_Data = Data
         prev_x0 = x0_all
 
-        # os.rename(os.path.join(dir_path, "output.json"), os.path.join(model_path, '0.json'))
+        os.rename(os.path.join(dir_path, "output.json"), os.path.join(model_path, '0.json'))
 
     eng.quit()
 
