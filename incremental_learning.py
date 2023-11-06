@@ -1,6 +1,7 @@
 import os, subprocess
 import numpy as np
 from scipy.io import loadmat
+import matplotlib.pyplot as plt
 
 from damm.main   import damm   as damm_class
 from ds_opt.main import ds_opt as dsopt_class
@@ -33,6 +34,7 @@ if __name__ == "__main__":
     "nu_0":           dim,
     "kappa_0":        0,
     "sigma_dir_0":    0.05,
+    "min_num_threshold": 50
     }
     damm = damm_class(param_dict)    
 
@@ -43,6 +45,9 @@ if __name__ == "__main__":
 
     # incremental learning
     i = 0
+    data_list = []
+    x0_list   = []
+    
     while True:
         message = 'Press enter to continue: '
         message_input = input(message)
@@ -64,11 +69,13 @@ if __name__ == "__main__":
             Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data, att)
             new_Data = Data.copy()
 
+        data_list.append(Data)
+        x0_list.append(x0_all)
 
-        if i==0:
-            plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
-        else:
-            plot_tools.plot_incremental(Data, prev_Data)
+        # if i==0:
+        #     plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+        # else:
+        #     plot_tools.plot_incremental(Data, prev_Data)
         
         if i==0:
             damm.begin(Data)
@@ -78,9 +85,9 @@ if __name__ == "__main__":
         damm.plot()
 
         if i!=0:
-            Data = np.hstack((prev_Data, Data))
+            # Data = np.hstack((prev_Data, Data))
+            Data = np.hstack(data_list)
            
-        # att[-1] =att[-1]
 
         # run ds-opt
         data_dict = {
@@ -92,20 +99,16 @@ if __name__ == "__main__":
             "traj_length":traj_length
         }
 
-        t0 = time.time()
-        T0 = perf_counter() 
+        plt.show()
 
         ds_opt = dsopt_class(data_dict, output_path) 
         ds_opt.begin()
-        t1 = time.time()
-        T1 = perf_counter() 
         
         ds_opt.evaluate()
-        if i==0:
-            ds_opt.plot()
-        else:
-            ds_opt.plot(new_Data, prev_Data, prev_x0)
-            ds_opt.plot(prev_Data, new_Data, prev_x0)
+
+        ds_opt.plot(data_list, x0_list)
+
+        #     ds_opt.plot(prev_Data, new_Data, prev_x0)
 
         # allfiles = os.listdir(mat_path)
         # for f in allfiles:
@@ -113,15 +116,14 @@ if __name__ == "__main__":
         #     dst_path = os.path.join(archive_path, f)
         #     os.rename(src_path, dst_path)
 
-
         # allfiles = os.listdir(rosbag_path)
 
         i+=1
 
-        prev_Data = Data
-        prev_x0 = x0_all
 
-        os.rename(os.path.join(dir_path, "output.json"), os.path.join(model_path, '0.json'))
+
+
+        # os.rename(os.path.join(dir_path, "output.json"), os.path.join(model_path, '0.json'))
 
     eng.quit()
 

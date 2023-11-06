@@ -8,3 +8,9 @@ rosbag_to_mat
 
 log/archive/*
 
+.DS_Store
+all.mat
+dataset/.DS_Store
+input.mat
+
+output.json

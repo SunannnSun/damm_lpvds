@@ -33,7 +33,7 @@ dim = Data.shape[0]
 
 param_dict ={
     "mu_0":           np.zeros((dim, )), 
-    "sigma_0":        0.5 * np.eye(dim),
+    "sigma_0":        0.3 * np.eye(dim),
     "nu_0":           dim,
     "kappa_0":        0.1,
     "sigma_dir_0":    0.1,
