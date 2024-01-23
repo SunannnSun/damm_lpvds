@@ -20,7 +20,7 @@ input_opt = input(input_message)
 # process and plot input data
 input_data = load_tools.load_data(int(input_opt))
 Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
-plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+# plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
 
 
 # damm clustering
@@ -28,11 +28,11 @@ dim = Data.shape[0]
 
 damm_config ={
     "mu_0":           np.zeros((dim, )), 
-    "sigma_0":        1 * np.eye(dim),
+    "sigma_0":        0.3 * np.eye(dim),
     "nu_0":           dim,
-    "kappa_0":        0.1,
+    "kappa_0":        0,
     "sigma_dir_0":    0.1,
-    "min_threshold":  50
+    "min_threshold":  10
 }
 
 damm = damm_class(damm_config)         
@@ -53,7 +53,9 @@ ds_opt_config = {
 
 output_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'output.json')
 
+
+
 ds_opt = dsopt_class(ds_opt_config, output_path)
 ds_opt.begin()
 ds_opt.evaluate()
-ds_opt.plot()
+ds_opt.plot(Data, [x0_all])
