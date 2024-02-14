@@ -109,6 +109,18 @@ def load_data(input_opt):
 
 
 def processDataStructure(data):
+    """
+    Arguments:
+        data: include position and velocity
+              should be dimension of N by 1
+              with each entry containing a trajectory of shape L by 2M
+
+
+    Parameters:
+        N: the number of trajectory
+        M: the number of dimension
+    
+    """
     N = int(len(data))
     M = int(len(data[0][0]) / 2)
     att_ = data[0][0][0:M, -1].reshape(M, 1)

@@ -35,8 +35,8 @@ source env3.8/bin/activate
 pip install -r requirements.txt
 ```
 
-Choose the input method in ```main.py``` and run command
+Run the main.py as a module to resolve relative imports
 
 ```
-python main.py
+python3 -m damm_lpvds.main
 ```
