@@ -45,7 +45,7 @@ class damm_lpvds():
         self.K = damm.K
 
         damm.plot()
-        # damm.logOut()
+        damm.logOut()
 
 
 
@@ -54,10 +54,10 @@ class damm_lpvds():
         ds_opt = dsopt_class(self.data, self.Priors, self.Mu, self.Sigma)
         self.A, self.b = ds_opt.begin()
 
-        # ds_opt.plot()
+        ds_opt.plot()
 
-        # ds_opt.evaluate()
-        # ds_opt.logOut()
+        ds_opt.evaluate()
+        ds_opt.logOut()
 
         self.ds_opt = ds_opt
 
