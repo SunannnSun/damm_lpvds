@@ -86,7 +86,7 @@ def load_data(input_opt):
         print("\nYou selected DAMM demo dataset.\n")
 
         from . import process_bag
-        damm_list = ["bridge", "Nshape"]
+        damm_list = ["bridge", "Nshape", "orientation"]
         
         message = """Available Models: \n"""
         for i in range(len(damm_list)):
@@ -98,8 +98,8 @@ def load_data(input_opt):
         data_opt = int(input(message))
     
         folder_name = str(damm_list[data_opt-1])
-        input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "damm-demo-data", folder_name, "all.mat")
-        input_data    = process_bag.process_bag_file(input_path)
+        input_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "damm-demo-data", folder_name, "all.mat")
+        input_data  = process_bag.process_bag_file(input_path)
 
     return input_data
 

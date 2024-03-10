@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Relative Import
-from .util import load_tools
+from .util import load_tools, plot_tools
 from .damm.main import damm as damm_class
 from .ds_opt.main import ds_opt as dsopt_class
 from .ds_opt.util.math_tools import gaussian_tools
@@ -92,15 +92,15 @@ if __name__ == "__main__":
     input_opt = input(input_message)
 
 
-    input_data = load_tools.load_data(int(input_opt))
+    input_data, q_in = load_tools.load_data(int(input_opt))
     Data, Data_sh, att, x0_all, dt, _, traj_length = load_tools.processDataStructure(input_data)
-    # plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
+    plot_tools.plot_reference_trajectories_DS(Data, att, 100, 20)
 
     output_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'output.json')
     # # output_path  = 'output.json'
 
-    damm_lpvds = damm_lpvds(Data, Data_sh, att, x0_all, dt, traj_length, output_path)
+    # damm_lpvds = damm_lpvds(Data, Data_sh, att, x0_all, dt, traj_length, output_path)
 
-    damm_lpvds.begin()
+    # damm_lpvds.begin()
 
     plt.show()
