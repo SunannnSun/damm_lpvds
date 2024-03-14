@@ -1,7 +1,7 @@
 import os, sys
 import numpy as np
 from scipy.io import loadmat
-
+import pyLasaDataset as lasa
 
 
 def load_data(input_opt):
@@ -26,7 +26,7 @@ def load_data(input_opt):
             sys.exit()
     
         data_name = str(pcgmm_list[data_opt-1]) + ".mat"
-        input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "pc-gmm-data", data_name)
+        input_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "..", "dataset", "pc-gmm-data", data_name)
 
         data_ = loadmat(r"{}".format(input_path))
         data_ = np.array(data_["data"])
@@ -48,7 +48,6 @@ def load_data(input_opt):
         # suppress print message from lasa package
         original_stdout = sys.stdout
         sys.stdout = open('/dev/null', 'w')
-        import pyLasaDataset as lasa
         sys.stdout = original_stdout
 
         lasa_list = ["Angle", "BendedLine", "CShape", "DoubleBendedLine", "GShape", "heee", "JShape", "JShape_2", "Khamesh", "Leaf_1",
@@ -98,8 +97,8 @@ def load_data(input_opt):
         data_opt = int(input(message))
     
         folder_name = str(damm_list[data_opt-1])
-        input_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "dataset", "damm-demo-data", folder_name, "all.mat")
-        input_data  = process_bag.process_bag_file(input_path)
+        input_path  = os.path.join(os.path.dirname(os.path.realpath(__file__)),"..", "..", "dataset", "damm-demo-data", folder_name, "all.mat")
+        input_data, _, _  = process_bag.process_bag_file(input_path)
 
     return input_data
 
