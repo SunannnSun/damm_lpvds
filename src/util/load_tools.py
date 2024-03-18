@@ -121,6 +121,7 @@ def processDataStructure(data):
     
     """
     N = int(len(data))
+    a = data[0][0]
     M = int(len(data[0][0]) / 2)
     att_ = data[0][0][0:M, -1].reshape(M, 1)
     for n in np.arange(1, N):
@@ -160,5 +161,7 @@ def processDataStructure(data):
 
     data_12 = data[0][0][:, 0:M]
     dt = np.abs((data_12[0][0] - data_12[0][1]) / data_12[M][0])
+        
+    dt = 0.01
     
     return Data, Data_sh, att, x0_all, dt, data, np.array(traj_length)
